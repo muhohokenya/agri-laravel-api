@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
-use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Http;
 
@@ -28,9 +27,6 @@ class PostController extends Controller
     }
 
     /**
-<<<<<<< HEAD
-     * Store a newly created resource in storage.
-=======
      * @OA\Post(
      *     path="/post/create",
      *     tags={"create post"},
@@ -71,18 +67,12 @@ class PostController extends Controller
      *         )
      *     )
      * )
->>>>>>> f3740d54e46043c328c15430fa943db4a007caba
      */
     public function store(StorePostRequest $request)
     {
         Post::query()->create([
-<<<<<<< HEAD
-            'user_id'=>$request->user()->id,
-            'name'=>$request->get('name')
-=======
             'user_id' => $request->user()->id,
             'name' => $request->get('name')
->>>>>>> f3740d54e46043c328c15430fa943db4a007caba
         ]);
 
         return response()->json("Created");

@@ -4,10 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserInterest;
-<<<<<<< HEAD
-use http\Client\Response;
-=======
->>>>>>> f3740d54e46043c328c15430fa943db4a007caba
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -15,15 +11,8 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-<<<<<<< HEAD
-    public function register(Request $request){
-
-
-=======
-
     public function register(Request $request)
     {
->>>>>>> f3740d54e46043c328c15430fa943db4a007caba
         $request->validate([
             'first_name'=>'required|string',
             'last_name'=>'required|string',
