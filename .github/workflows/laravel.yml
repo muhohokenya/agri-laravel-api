@@ -36,6 +36,12 @@ jobs:
 #      run: |
 #        mkdir -p database
 #        touch database/database.sqlite
-    - name: Deploy
-      run: |
-         - ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }}  root@147.182.135.96
+    - name: executing remote ssh commands using password
+          uses: appleboy/ssh-action@v0.1.10
+          with:
+            host: 147.182.135.96
+            username: root
+            key: ${{secrets.SSH_PRIVATE_KEY}}
+#            password: ${{ secrets.PASSWORD }}
+            port: 22
+            script: whoami
