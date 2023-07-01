@@ -36,12 +36,15 @@ jobs:
 #      run: |
 #        mkdir -p database
 #        touch database/database.sqlite
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v0.1.10
+  build:
+      name: Build
+      runs-on: ubuntu-latest
+      steps:
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: 147.182.135.96
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
           username: root
-          key: ${{secrets.SSH_PRIVATE_KEY}}
-#            password: ${{ secrets.PASSWORD }}
-            port: 22
-            script: whoami
+          port: 22
+          script: whoami
