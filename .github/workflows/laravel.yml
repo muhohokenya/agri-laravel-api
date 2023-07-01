@@ -44,9 +44,9 @@ jobs:
       - name: executing remote ssh commands using password
         uses: appleboy/ssh-action@v0.1.10
         with:
-          host: 147.182.135.96
+          host: ${{ secrets.HOST }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          username: root
+          username: ${{ secrets.USER_NAME }}
           port: 22
           script: |
             cd /var/www/laravel/
