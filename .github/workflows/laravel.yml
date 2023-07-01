@@ -49,5 +49,5 @@ jobs:
           username: root
           port: 22
           script: |
-            cd/var/www/laravel/
+            cd /var/www/laravel/
             git pull origin main
