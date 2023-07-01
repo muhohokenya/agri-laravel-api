@@ -7,7 +7,7 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
+  larave-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -39,7 +39,7 @@ jobs:
 #        touch database/database.sqlite
   build:
       name: Build
-      needs: [build]
+      needs: ['larave-test']
       runs-on: ubuntu-latest
       steps:
       - name: executing remote ssh commands using password
