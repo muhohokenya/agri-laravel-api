@@ -38,4 +38,4 @@ jobs:
 #        touch database/database.sqlite
     - name: Deploy
       run: |
-        ls -la
+         - ssh -o StrictHostKeyChecking=no -i ${{ secrets.SSH_PRIVATE_KEY }}  root@147.182.135.96
