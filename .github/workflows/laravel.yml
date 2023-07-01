@@ -47,4 +47,4 @@ jobs:
     steps:
       - name : Deploy
         run : |
-        ls -la
+          ls -la
