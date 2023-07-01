@@ -22,7 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
+
     Route::get("user", [AuthController::class,'getUser']);
 
     Route::get("interests", [InterestController::class,'index']);
@@ -32,7 +34,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post("reply/create", [ReplyController::class,'store']);
     Route::get("replies", [ReplyController::class,'index']);
-
 
     Route::post("vote", [VoteController::class,'store']);
 
