@@ -27,7 +27,7 @@ jobs:
             laravelsail/php82-composer:latest \
             composer install --ignore-platform-reqs
     - name: Start sail
-     run: |
+      run: |
         ./vendor/bin/sail up -d
     - name: Generate key
       run: sail artisan key:generate
