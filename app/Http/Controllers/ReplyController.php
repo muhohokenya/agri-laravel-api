@@ -8,12 +8,15 @@ use App\Models\Reply;
 
 class ReplyController extends Controller
 {
+<<<<<<< HEAD
     /**
      * @OA\Get(
      *     path="/api/users",
      *     @OA\Response(response="200", description="An example endpoint")
      * )
      */
+=======
+>>>>>>> f3740d54e46043c328c15430fa943db4a007caba
     public function index()
     {
         return response()->json(Reply::query()->with([
@@ -24,6 +27,27 @@ class ReplyController extends Controller
     /**
      * Store a newly created resource in storage.
      */
+<<<<<<< HEAD
+=======
+    /**
+     * @OA\Post (
+     *      path="/api/reply/create",
+     *      operationId="getProjectsList",
+     *      tags={"create reply"},
+     *      summary="Create reply",
+     *      description="Creates a reply",
+     *
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *      ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *     )
+     */
+>>>>>>> f3740d54e46043c328c15430fa943db4a007caba
     public function store(StoreReplyRequest $request)
     {
         Reply::query()->create([

@@ -20,6 +20,7 @@ image: gitlab/dind
 services:
   - docker:dind
 stages:          # List of stages for jobs, and their order of execution
+<<<<<<< HEAD
   - build
   - test
   - deploy
@@ -52,3 +53,46 @@ deploy-job:      # This job runs in the deploy stage.
   script:
     - echo "Deploying application..."
     - echo "Application successfully deployed."
+=======
+#  - build
+  - test
+  - deploy
+
+#build-job:       # This job runs in the build stage, which runs first.
+#  stage: build
+#  script:
+#    - echo "Compiling the code..."
+#    - echo "Compile complete."
+
+
+#lint-test-job:   # This job also runs in the test stage.
+#  stage: test    # It can run at the same time as unit-test-job (in parallel).
+#  script:
+#      - 'which ssh-agent || ( apt-get install -qq openssh-client )'
+#      - eval $(ssh-agent -s)
+##      - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+#      - ssh-add <(echo "$SSH_PRIVATE_KEY")
+##      - chmod 700 .ssh/id_rsa
+#      - ssh-keyscan -t rsa 147.182.135.96 > ~/.ssh/known_hosts
+#      - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
+#      - chmod 644 .ssh/known_hosts
+#    sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer
+
+#deploy-job:      # This job runs in the deploy stage.
+#  stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.
+#  environment: production
+#  script:
+#    - ssh -oStrictHostKeyChecking=no root@147.182.135.96 "cd var/www/laravel && git checkout main && git pull origin main && exit"
+#    - echo "Application successfully deployed."
+deploy_production:
+  stage: deploy
+  before_script:
+#    - 'command -v ssh-agent >/dev/null || ( apt-get update -y && apt-get install openssh-client -y )'
+    - eval $(ssh-agent -s)
+    - chmod 400 /builds/agristroom/agristroom-backend.tmp/SSH_PRIVATE_KEY
+    - ssh-add "$SSH_PRIVATE_KEY"
+#    - mkdir -p ~/.ssh
+#    - chmod 700 ~/.ssh
+  script:
+    - ssh -o StrictHostKeyChecking=no -i $SSH_PRIVATE_KEY root@147.182.135.96
+>>>>>>> f3740d54e46043c328c15430fa943db4a007caba

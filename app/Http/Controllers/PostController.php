@@ -28,13 +28,61 @@ class PostController extends Controller
     }
 
     /**
+<<<<<<< HEAD
      * Store a newly created resource in storage.
+=======
+     * @OA\Post(
+     *     path="/post/create",
+     *     tags={"create post"},
+     *     summary="Adds a new user - with oneOf examples",
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     property="id",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="name",
+     *                     type="string"
+     *                 ),
+     *                 @OA\Property(
+     *                     property="phone",
+     *                     oneOf={
+     *                     	   @OA\Schema(type="string"),
+     *                     	   @OA\Schema(type="integer"),
+     *                     }
+     *                 ),
+     *                 example={"name": "What is the optimum environment for apple farming"}
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="OK",
+     *         @OA\JsonContent(
+     *             oneOf={
+     *                 @OA\Schema(ref="#/components/schemas/PostResource"),
+     *                 @OA\Schema(type="boolean")
+     *             },
+     *             @OA\Examples(example="result", value={"success": true}, summary="An result object."),
+     *             @OA\Examples(example="bool", value=false, summary="A boolean value."),
+     *         )
+     *     )
+     * )
+>>>>>>> f3740d54e46043c328c15430fa943db4a007caba
      */
     public function store(StorePostRequest $request)
     {
         Post::query()->create([
+<<<<<<< HEAD
             'user_id'=>$request->user()->id,
             'name'=>$request->get('name')
+=======
+            'user_id' => $request->user()->id,
+            'name' => $request->get('name')
+>>>>>>> f3740d54e46043c328c15430fa943db4a007caba
         ]);
 
         return response()->json("Created");
