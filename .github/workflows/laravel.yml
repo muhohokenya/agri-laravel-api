@@ -25,9 +25,9 @@ jobs:
             -w /var/www/html \
             laravelsail/php82-composer:latest \
             composer install --ignore-platform-reqs
-#    - name: Start sail
-#      run: |
-#        ./vendor/bin/sail up -d
+    - name: Start sail
+      run: |
+        ./vendor/bin/sail up -d
     - name: Generate key
       run: ./vendor/bin/sail artisan key:generate
     - name: Directory Permissions
