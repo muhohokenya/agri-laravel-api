@@ -23,12 +23,12 @@ use Illuminate\Support\Facades\Route;
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
 
+Route::get("interests", [InterestController::class,'index']);
+Route::get("accounts", [AccountTypeController::class,'index']);
+
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get("user", [AuthController::class,'getUser']);
-
-    Route::get("interests", [InterestController::class,'index']);
-    Route::get("accounts", [AccountTypeController::class,'index']);
     Route::post("post/create", [PostController::class,'store']);
     Route::get("posts", [PostController::class,'index']);
 
