@@ -14,7 +14,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(Post::query()->with(['user'])->get());
+        return response()->json(Post::query()->with(['user'])->orderBy('created_at','desc')->get());
     }
 
 
