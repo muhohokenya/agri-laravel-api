@@ -56,7 +56,7 @@ class DatabaseSeeder extends Seeder
             ];
         }
         AccountType::query()->insert($accountsDbArray);
-//        Interest::query()->insert($interestsDbArray);
+        Interest::query()->insert($interestsDbArray);
 
     }
 }
