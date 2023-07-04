@@ -55,12 +55,18 @@ class ReplyController extends Controller
         return response()->json('reply created');
     }
 
+    public function getReplyByID($id){
+        return response()->json(Reply::query()->where('id',$id)->with([
+            'user','post','upVotes','downVotes'
+        ])->get());
+    }
+
     /**
      * Display the specified resource.
      */
     public function show(Reply $reply)
     {
-        //
+
     }
 
     /**

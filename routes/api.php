@@ -34,6 +34,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post("reply/create", [ReplyController::class,'store']);
     Route::get("replies", [ReplyController::class,'index']);
+    Route::get("reply/{id}", [ReplyController::class,'getReplyByID']);
 
     Route::post("vote", [VoteController::class,'store']);
 
