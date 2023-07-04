@@ -83,4 +83,23 @@ class AuthController extends Controller
         ]);
     }
 
+    public function updateUser(Request $request){
+        $request->validate([
+            'first_name'=>'required|string',
+            'last_name'=>'required|string',
+            'country'=>'required|string',
+            'county'=>'required|string',
+        ]);
+
+        User::query()
+            ->where('email', $request->user()->email)
+            ->update([
+            'first_name'=>$request->get('first_name'),
+            'last_name'=>$request->get('last_name'),
+            'phone_number'=>$request->get('phone_number'),
+            'country'=>$request->get('country'),
+            'county'=>$request->get('county'),
+        ]);
+    }
+
 }

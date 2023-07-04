@@ -29,6 +29,7 @@ Route::get("accounts", [AccountTypeController::class,'index']);
 Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get("user", [AuthController::class,'getUser']);
+    Route::post("user/update", [AuthController::class,'updateUser']);
     Route::post("post/create", [PostController::class,'store']);
     Route::get("posts", [PostController::class,'index']);
 
