@@ -91,6 +91,12 @@ class AuthController extends Controller
             'county'=>'required|string',
         ]);
 
+        if ($request->hasFile('profile_image')){
+            $file = $request->file('profile_image');
+            $destinationPath = 'uploads/profiles';
+            $file->move($destinationPath, $file->getClientOriginalName());
+        }
+
         User::query()
             ->where('email', $request->user()->email)
             ->update([
