@@ -17,6 +17,13 @@ class PostController extends Controller
         return response()->json(Post::query()->with(['user'])->orderBy('created_at','desc')->get());
     }
 
+    public function getPostByID($id)
+    {
+        return response()->json(Post::query()->where('id', $id)->with([
+            'user',
+        ])->get());
+    }
+
 
     /**
      * Show the form for creating a new resource.

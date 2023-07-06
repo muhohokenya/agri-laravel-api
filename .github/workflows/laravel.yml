@@ -34,7 +34,9 @@ jobs:
 #    - name: Create Database
 #      run: |
 #        mkdir -p database
-
+#php artisan db:wipe
+ #            php artisan migrate
+ #            php artisan db:seed
 #        touch database/database.sqlite
 
   build:
@@ -52,6 +54,4 @@ jobs:
           script: |
             cd /var/www/laravel/
             git pull origin main
-            php artisan db:wipe
-            php artisan migrate
-            php artisan db:seed
+
