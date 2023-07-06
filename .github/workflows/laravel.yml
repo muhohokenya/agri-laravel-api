@@ -36,9 +36,7 @@ jobs:
 #        mkdir -p database
 
 #        touch database/database.sqlite
-# php artisan db:wipe
-#            php artisan migrate
-#            php artisan db:seed
+
   build:
 #      name: Build
 #      needs: ['larave-test']
@@ -54,3 +52,6 @@ jobs:
           script: |
             cd /var/www/laravel/
             git pull origin main
+            php artisan db:wipe
+            php artisan migrate
+            php artisan db:seed
