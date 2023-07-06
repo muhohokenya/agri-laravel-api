@@ -62,9 +62,10 @@ class ReplyController extends Controller
         ])->get());
     }
 
-    public function getReplyByPost($post_id){
+    public function getReplyByPost($postId)
+    {
         return response()->json(
-            Reply::query()->where('post_id', $post_id)
+            Reply::query()->where('post_id', $postId)
                 ->with(['user','post','upVotes','downVotes'])
                 ->get()
         );
