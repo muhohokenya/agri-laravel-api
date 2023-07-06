@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
 use App\Models\Reply;
+use Illuminate\Support\Facades\DB;
 
 class ReplyController extends Controller
 {
@@ -59,6 +60,14 @@ class ReplyController extends Controller
         return response()->json(Reply::query()->where('id',$id)->with([
             'user','post','upVotes','downVotes'
         ])->get());
+    }
+
+    public function getReplyByPost($post_id){
+        return response()->json(
+            Reply::query()->where('post_id', $post_id)
+                ->with(['user','post','upVotes','downVotes'])
+                ->get()
+        );
     }
 
     /**
