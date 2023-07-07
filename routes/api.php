@@ -30,6 +30,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get("user", [AuthController::class,'getUser']);
     Route::post("user/update", [AuthController::class,'updateUser']);
+    Route::post("user/update/profile-picture", [AuthController::class,'updateProfilePicture']);
     Route::post("post/create", [PostController::class,'store']);
     Route::get("posts", [PostController::class,'index']);
     Route::get("post/{id}", [PostController::class,'getPostByID']);

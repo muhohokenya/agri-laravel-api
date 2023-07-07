@@ -83,7 +83,22 @@ class AuthController extends Controller
         ]);
     }
 
-    public function updateUser(Request $request){
+    public function updateProfilePicture(Request $request)
+    {
+        if ($request->hasFile('profile_picture')){
+            $file = $request->file('profile_picture');
+            $destinationPath = 'uploads/profiles';
+            $file->move($destinationPath, $file->getClientOriginalName());
+        }
+
+        return response()->json([
+            'status'=>'success',
+            'message'=>'Profile picture updated successfully'
+        ]);
+    }
+
+    public function updateUser(Request $request)
+    {
         $request->validate([
             'first_name'=>'required|string',
             'last_name'=>'required|string',
@@ -91,11 +106,7 @@ class AuthController extends Controller
             'county'=>'required|string',
         ]);
 
-        if ($request->hasFile('profile_image')){
-            $file = $request->file('profile_image');
-            $destinationPath = 'uploads/profiles';
-            $file->move($destinationPath, $file->getClientOriginalName());
-        }
+
 
         User::query()
             ->where('email', $request->user()->email)
