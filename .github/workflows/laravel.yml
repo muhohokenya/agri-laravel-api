@@ -54,4 +54,5 @@ jobs:
           script: |
             cd /var/www/laravel/
             git pull origin main
+            node --version
 

@@ -85,7 +85,7 @@ class AuthController extends Controller
 
     public function updateProfilePicture(Request $request)
     {
-        if ($request->hasFile('profile_picture')){
+        if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
             $destinationPath = 'uploads/profiles';
             $file->move($destinationPath, $file->getClientOriginalName());
