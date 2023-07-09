@@ -31,6 +31,8 @@ class User extends Authenticatable
         'email',
         'password',
         'account_id',
+        'social_auth_provider_id',
+        'social_auth_provider',
     ];
 
     public function account()

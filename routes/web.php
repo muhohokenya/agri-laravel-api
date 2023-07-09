@@ -17,14 +17,3 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
-})->name('google-auth');
-
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('google')->user();
-
-    \Illuminate\Support\Facades\Log::info(json_encode($user));
-    // $user->token
-});

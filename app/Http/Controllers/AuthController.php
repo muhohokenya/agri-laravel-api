@@ -12,6 +12,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
+    private $socialAuthProvider;
     public function register(Request $request)
     {
         $request->validate([
@@ -120,27 +121,31 @@ class AuthController extends Controller
         ]);
     }
 
-    public function handleGoogleRedirect()
+    public function handleProviderRedirect($provider)
     {
-        return Socialite::driver('google')->redirect();
+        $this->socialAuthProvider = $provider;
+        return Socialite::driver($provider)->stateless()->redirect();
     }
 
-    public function handleGoogleCallBack()
+    public function handleProviderCallBack()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $socialAuthUser = Socialite::driver('google')->stateless()->user();
             $user = User::query()
-                ->where('google_id', $googleUser->id)
-                ->first();
+                ->where('social_auth_provider', 'google')
+                ->where('social_auth_provider_id', $socialAuthUser->getId())
+                ->exists();
 
             if (!$user) {
                $newUser =  User::query()->create([
-                    'first_name'=>$googleUser->getName(),
-                    'last_name'=>$googleUser->getEmail(),
-                    'phone_number'=>$googleUser->getName(),
-                    'email'=>$googleUser->getEmail(),
+                    'first_name'=>$socialAuthUser->getName(),
+                    'last_name'=>$socialAuthUser->getName(),
+                    'phone_number'=>"0711555666",
+                    'email'=>$socialAuthUser->getEmail(),
                     'password'=>bcrypt('password'),
                     'account_id'=>1,
+                    'social_auth_provider'=>"google",
+                    'social_auth_provider_id'=>$socialAuthUser->getId(),
                 ]);
 
                Auth::login($newUser);

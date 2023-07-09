@@ -24,15 +24,8 @@ use Laravel\Socialite\Facades\Socialite;
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
 
-Route::get('/auth/redirect', function () {
-    return Socialite::driver('google')->redirect();
-});
-
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('google')->user();
-
-    // $user->token
-});
+Route::get('/auth/{provider}/redirect', [AuthController::class,'handleProviderRedirect']);
+Route::get('/auth/callback', [AuthController::class,'handleProviderCallBack']);
 
 Route::get("interests", [InterestController::class,'index']);
 Route::get("accounts", [AccountTypeController::class,'index']);
