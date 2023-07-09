@@ -8,6 +8,7 @@ use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +24,16 @@ use Illuminate\Support\Facades\Route;
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
 
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('google')->redirect();
+});
+
+Route::get('/auth/callback', function () {
+    $user = Socialite::driver('google')->user();
+
+    // $user->token
+});
+
 Route::get("interests", [InterestController::class,'index']);
 Route::get("accounts", [AccountTypeController::class,'index']);
 
@@ -31,6 +42,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("user", [AuthController::class,'getUser']);
     Route::post("user/update", [AuthController::class,'updateUser']);
     Route::post("user/update/profile-picture", [AuthController::class,'updateProfilePicture']);
+
+
     Route::post("post/create", [PostController::class,'store']);
     Route::get("posts", [PostController::class,'index']);
     Route::get("post/{id}", [PostController::class,'getPostByID']);

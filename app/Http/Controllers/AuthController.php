@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -117,6 +118,42 @@ class AuthController extends Controller
             'country'=>$request->get('country'),
             'county'=>$request->get('county'),
         ]);
+    }
+
+    public function handleGoogleRedirect()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallBack()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->user();
+            $user = User::query()
+                ->where('google_id', $googleUser->id)
+                ->first();
+
+            if (!$user) {
+               $newUser =  User::query()->create([
+                    'first_name'=>$googleUser->getName(),
+                    'last_name'=>$googleUser->getEmail(),
+                    'phone_number'=>$googleUser->getName(),
+                    'email'=>$googleUser->getEmail(),
+                    'password'=>bcrypt('password'),
+                    'account_id'=>1,
+                ]);
+
+               Auth::login($newUser);
+
+               return redirect()->intended('dashboard');
+            } else {
+                Auth::login($user);
+
+                return redirect()->intended('dashboard');
+            }
+        }catch (\Exception $ex) {
+         return $ex;
+        }
     }
 
 }
