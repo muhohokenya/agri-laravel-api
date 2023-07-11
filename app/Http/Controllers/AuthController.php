@@ -121,16 +121,26 @@ class AuthController extends Controller
         ]);
     }
 
-    public function handleProviderRedirect($provider)
+    public function handleGoogleRedirect($provider)
     {
-        $this->socialAuthProvider = $provider;
         return Socialite::driver($provider)->stateless()->redirect();
     }
 
+    public function handleFaceBookRedirect()
+    {
+        return Socialite::driver("facebook")->stateless()->redirect();
+    }
+
+    public function handleFacebookCallBack(){
+        $facebookAuthUser = Socialite::driver('facebook')->stateless()->user();
+        dd($facebookAuthUser);
+    }
     public function handleProviderCallBack()
     {
         try {
             $socialAuthUser = Socialite::driver('google')->stateless()->user();
+
+            dd($socialAuthUser);
             $user = User::query()
                 ->where('social_auth_provider', 'google')
                 ->where('social_auth_provider_id', $socialAuthUser->getId())
