@@ -52,7 +52,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   build:
 #      name: Build
-#      needs: ['larave-test']
+      needs: ['sonarcloud']
       runs-on: ubuntu-latest
       steps:
       - name: executing remote ssh commands using password
