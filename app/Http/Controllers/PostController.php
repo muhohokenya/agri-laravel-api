@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
-use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
@@ -14,7 +13,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(Post::query()->with(['user'])->orderBy('created_at','desc')->get());
+        return response()->json(Post::query()->with(['user'])->orderBy('created_at', 'desc')->get());
     }
 
     public function getPostByID($id)

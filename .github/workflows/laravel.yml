@@ -57,7 +57,7 @@ jobs:
 #      needs: ['sonarcloud']
       runs-on: ubuntu-latest
       steps:
-      - name: executing remote ssh commands using password
+      - name: Ssh and Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.HOST }}
