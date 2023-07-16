@@ -68,6 +68,3 @@ jobs:
             cd /var/www/laravel/
             git pull origin main
             composer update
-            php artisan db:wipe
-            php artisan migrate
-            php artisan db:seed
