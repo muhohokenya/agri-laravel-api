@@ -24,10 +24,6 @@ use Laravel\Socialite\Facades\Socialite;
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
 Route::get("posts", [PostController::class,'index']);
-Route::get("hello", function (){
-    return response()->json("Hello");
-});
-
 Route::get('/auth/google/redirect', [AuthController::class,'handleGoogleRedirect']);
 Route::get('/auth/facebook/redirect', [AuthController::class,'handleFaceBookRedirect']);
 Route::get('/auth/google/callback', [AuthController::class,'handleProviderCallBack']);
