@@ -23,6 +23,7 @@ use Laravel\Socialite\Facades\Socialite;
 
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
+Route::get("posts", [PostController::class,'index']);
 
 Route::get('/auth/google/redirect', [AuthController::class,'handleGoogleRedirect']);
 Route::get('/auth/facebook/redirect', [AuthController::class,'handleFaceBookRedirect']);
@@ -38,9 +39,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post("user/update", [AuthController::class,'updateUser']);
     Route::post("user/update/profile-picture", [AuthController::class,'updateProfilePicture']);
 
-
     Route::post("post/create", [PostController::class,'store']);
-    Route::get("posts", [PostController::class,'index']);
     Route::get("post/{id}", [PostController::class,'getPostByID']);
 
     Route::post("reply/create", [ReplyController::class,'store']);

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\UserInterest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -12,7 +13,17 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
-    private $socialAuthProvider;
+    private function registerUser($data)
+    {
+        return User::query()->create([
+            'first_name'=>$data['first_name'],
+            'last_name'=>$data['last_name'],
+            'phone_number'=>$data['phone_number'],
+            'email'=>$data['email'],
+            'password'=>bcrypt($data['password']),
+            'account_id'=>$data['account_id'],
+        ]);
+    }
     public function register(Request $request)
     {
         $request->validate([
@@ -23,14 +34,15 @@ class AuthController extends Controller
             'account_id'=>'required'
         ]);
 
-       $user =  User::query()->create([
+        $data = [
             'first_name'=>$request->get('first_name'),
             'last_name'=>$request->get('last_name'),
             'phone_number'=>$request->get('phone_number'),
             'email'=>$request->get('email'),
             'password'=>$request->get('password'),
             'account_id'=>$request->get('account_id'),
-        ]);
+        ];
+       $user =  $this->registerUser($data);
 
        if ($request->has('interests')) {
            $interests = $request->get('interests');
@@ -121,9 +133,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function handleGoogleRedirect($provider)
+    public function handleGoogleRedirect()
     {
-        return Socialite::driver($provider)->stateless()->redirect();
+        return Socialite::driver("google")->stateless()->redirect();
     }
 
     public function handleFaceBookRedirect()
@@ -131,39 +143,43 @@ class AuthController extends Controller
         return Socialite::driver("facebook")->stateless()->redirect();
     }
 
-    public function handleFacebookCallBack(){
+    public function handleFacebookCallBack()
+    {
         $facebookAuthUser = Socialite::driver('facebook')->stateless()->user();
-        dd($facebookAuthUser);
+        $fullName = explode(" ", $facebookAuthUser->getName());
+        $firstName = Arr::first($fullName);
+        $lastName = Arr::last($fullName);
+        $phoneNumber = "0711889219";
+        $email = $facebookAuthUser->getEmail();
+        $accountId = 1;
+        $socialAuthProvider = "facebook";
+        $socialAuthProviderId = $facebookAuthUser->getId();
+
+        $faceBookRegistrationData = [
+            'first_name'=>$firstName,
+            'last_name'=>$lastName,
+            'phone_number'=>$phoneNumber,
+            'email'=>$email,
+            'password'=>bcrypt('password'),
+            'account_id'=>$accountId,
+            'social_auth_provider'=>$socialAuthProvider,
+            'social_auth_provider_id'=>$socialAuthProviderId,
+        ];
+        $this->registerUser($faceBookRegistrationData);
     }
     public function handleProviderCallBack()
     {
         try {
             $socialAuthUser = Socialite::driver('google')->stateless()->user();
-
-            dd($socialAuthUser);
             $user = User::query()
                 ->where('social_auth_provider', 'google')
                 ->where('social_auth_provider_id', $socialAuthUser->getId())
-                ->exists();
+                ->first();
 
             if (!$user) {
-               $newUser =  User::query()->create([
-                    'first_name'=>$socialAuthUser->getName(),
-                    'last_name'=>$socialAuthUser->getName(),
-                    'phone_number'=>"0711555666",
-                    'email'=>$socialAuthUser->getEmail(),
-                    'password'=>bcrypt('password'),
-                    'account_id'=>1,
-                    'social_auth_provider'=>"google",
-                    'social_auth_provider_id'=>$socialAuthUser->getId(),
-                ]);
-
-               Auth::login($newUser);
-
                return redirect()->intended('dashboard');
             } else {
                 Auth::login($user);
-
                 return redirect()->intended('dashboard');
             }
         }catch (\Exception $ex) {
