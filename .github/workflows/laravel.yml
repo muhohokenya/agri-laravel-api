@@ -4,10 +4,9 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-  laravel-test:
+  test:
     name: laravel-test
     runs-on: ubuntu-latest
-
     steps:
     - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
       with:
