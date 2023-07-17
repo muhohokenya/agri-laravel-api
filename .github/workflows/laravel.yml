@@ -29,6 +29,7 @@ jobs:
             composer install --ignore-platform-reqs
     - name: Start sail
       run: |
+        ./vendor/bin/sail down --rmi all -v
         ./vendor/bin/sail up -d
     - name: Generate key
       run: ./vendor/bin/sail artisan key:generate
