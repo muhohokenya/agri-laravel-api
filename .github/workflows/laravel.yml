@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [ "main" ]
 jobs:
-    laravel-tests:
+    name: laravel-test
     runs-on: ubuntu-latest
 
     steps:
