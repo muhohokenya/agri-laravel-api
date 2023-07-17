@@ -53,7 +53,7 @@ jobs:
             SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy:
       name: Deoloy
-      needs: ['larave-test']
+      needs: ['test']
       runs-on: ubuntu-latest
       steps:
       - name: Ssh and Deploy
