@@ -8,5 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Interest extends Model
 {
     public $timestamps = false;
+
+    protected $fillable = [
+        'status','name'
+    ];
     use HasFactory,HasFactory;
 }

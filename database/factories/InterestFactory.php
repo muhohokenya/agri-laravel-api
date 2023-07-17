@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
+use Carbon\Exceptions\Exception;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

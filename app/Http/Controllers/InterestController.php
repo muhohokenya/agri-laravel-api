@@ -14,7 +14,10 @@ class InterestController extends Controller
     public function index()
     {
         return response()
-                ->json(Interest::all());
+                ->json(Interest::query()
+                    ->where('status', 'public')
+                    ->get()
+                );
     }
 
     /**

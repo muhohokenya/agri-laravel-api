@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Interest;
 use App\Models\User;
 use App\Models\UserInterest;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -16,47 +18,81 @@ class AuthController extends Controller
     private function registerUser($data)
     {
         return User::query()->create([
-            'first_name'=>$data['first_name'],
-            'last_name'=>$data['last_name'],
-            'phone_number'=>$data['phone_number'],
-            'email'=>$data['email'],
-            'password'=>bcrypt($data['password']),
-            'account_id'=>$data['account_id'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'phone_number' => $data['phone_number'],
+            'email' => $data['email'],
+            'password' => bcrypt($data['password']),
+            'account_id' => $data['account_id'],
         ]);
     }
+
     public function register(Request $request)
     {
         $request->validate([
-            'first_name'=>'required|string',
-            'last_name'=>'required|string',
-            'email'=>'required|string|email|unique:users',
-            'password'=>'required|min:8',
-            'account_id'=>'required'
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|min:8',
+            'account_id' => 'required'
         ]);
 
         $data = [
-            'first_name'=>$request->get('first_name'),
-            'last_name'=>$request->get('last_name'),
-            'phone_number'=>$request->get('phone_number'),
-            'email'=>$request->get('email'),
-            'password'=>$request->get('password'),
-            'account_id'=>$request->get('account_id'),
+            'first_name' => $request->get('first_name'),
+            'last_name' => $request->get('last_name'),
+            'phone_number' => $request->get('phone_number'),
+            'email' => $request->get('email'),
+            'password' => $request->get('password'),
+            'account_id' => $request->get('account_id'),
         ];
-       $user =  $this->registerUser($data);
+        $user = $this->registerUser($data);
 
-       if ($request->has('interests')) {
-           $interests = $request->get('interests');
-           if (count($interests)) {
-               $userInterests = [];
-               foreach ($interests as $interest) {
-                   $userInterests[] = [
-                       'user_id' => $user->id,
-                       'interest_id' => $interest['id']
-                   ];
-               }
-               UserInterest::query()->insert($userInterests);
-           }
-       }
+        if ($request->has('interests')) {
+            $interests = $request->get('interests');
+            if (count($interests)) {
+                $userInterests = [];
+                foreach ($interests as $interest) {
+                    $userInterests[] = [
+                        'user_id' => $user->id,
+                        'interest_id' => $interest['id']
+                    ];
+                }
+                UserInterest::query()->insert($userInterests);
+            }
+        }
+
+        if ($request->has('other_interests')) {
+            $otherInterests = $request->get('other_interests');
+            if (count($otherInterests)) {
+                $userOtherInterests = [];
+                $userOtherInterestsNames = [];
+                foreach ($otherInterests as $otherInterest) {
+
+                    //Grab the names of user other interests
+                    $userOtherInterestsNames [] = $otherInterest;
+
+                    //Prepare user other interests array
+                    $userOtherInterests[] = [
+                        'name' => $otherInterest,
+                        'status' => 'private',
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now(),
+                    ];
+                }
+
+                //Save other interests with private status
+                Interest::query()->insert($userOtherInterests);
+
+                //Get ids of user other interests
+                $userOtherInterestsIds = Interest::query()
+                    ->whereIn('name', $userOtherInterestsNames)
+                    ->pluck('id');
+
+                //Associate the user with interests
+                $user->interests()->attach($userOtherInterestsIds);
+                Log::info($userOtherInterestsIds);
+            }
+        }
 
 
         $token = $user->createToken('authToken')->plainTextToken;
@@ -72,7 +108,7 @@ class AuthController extends Controller
         return response()->json(
             User::query()
                 ->where('id', $request->user()->id)
-                ->with(['interests','account'])
+                ->with(['interests', 'account'])
                 ->get()
         );
     }
@@ -83,7 +119,7 @@ class AuthController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'message' => 'UnAuthorised!',
-                'error_code'=>401
+                'error_code' => 401
             ], 401);
         }
 
@@ -106,31 +142,30 @@ class AuthController extends Controller
         }
 
         return response()->json([
-            'status'=>'success',
-            'message'=>'Profile picture updated successfully'
+            'status' => 'success',
+            'message' => 'Profile picture updated successfully'
         ]);
     }
 
     public function updateUser(Request $request)
     {
         $request->validate([
-            'first_name'=>'required|string',
-            'last_name'=>'required|string',
-            'country'=>'required|string',
-            'county'=>'required|string',
+            'first_name' => 'required|string',
+            'last_name' => 'required|string',
+            'country' => 'required|string',
+            'county' => 'required|string',
         ]);
-
 
 
         User::query()
             ->where('email', $request->user()->email)
             ->update([
-            'first_name'=>$request->get('first_name'),
-            'last_name'=>$request->get('last_name'),
-            'phone_number'=>$request->get('phone_number'),
-            'country'=>$request->get('country'),
-            'county'=>$request->get('county'),
-        ]);
+                'first_name' => $request->get('first_name'),
+                'last_name' => $request->get('last_name'),
+                'phone_number' => $request->get('phone_number'),
+                'country' => $request->get('country'),
+                'county' => $request->get('county'),
+            ]);
     }
 
     public function handleGoogleRedirect()
@@ -156,17 +191,18 @@ class AuthController extends Controller
         $socialAuthProviderId = $facebookAuthUser->getId();
 
         $faceBookRegistrationData = [
-            'first_name'=>$firstName,
-            'last_name'=>$lastName,
-            'phone_number'=>$phoneNumber,
-            'email'=>$email,
-            'password'=>bcrypt('password'),
-            'account_id'=>$accountId,
-            'social_auth_provider'=>$socialAuthProvider,
-            'social_auth_provider_id'=>$socialAuthProviderId,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
+            'phone_number' => $phoneNumber,
+            'email' => $email,
+            'password' => bcrypt('password'),
+            'account_id' => $accountId,
+            'social_auth_provider' => $socialAuthProvider,
+            'social_auth_provider_id' => $socialAuthProviderId,
         ];
         $this->registerUser($faceBookRegistrationData);
     }
+
     public function handleProviderCallBack()
     {
         try {
@@ -177,13 +213,13 @@ class AuthController extends Controller
                 ->first();
 
             if (!$user) {
-               return redirect()->intended('dashboard');
+                return redirect()->intended('dashboard');
             } else {
                 Auth::login($user);
                 return redirect()->intended('dashboard');
             }
-        }catch (\Exception $ex) {
-         return $ex;
+        } catch (\Exception $ex) {
+            return $ex;
         }
     }
 

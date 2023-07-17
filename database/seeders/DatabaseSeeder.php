@@ -7,6 +7,7 @@ use App\Models\AccountType;
 use App\Models\Interest;
 use App\Models\Post;
 use App\Models\Reply;
+use Carbon\Carbon;
 use Database\Factories\PostFactory;
 use Illuminate\Database\Seeder;
 
@@ -52,7 +53,9 @@ class DatabaseSeeder extends Seeder
         $interestsDbArray = [];
         foreach ($interests as $interest) {
             $interestsDbArray[] = [
-                'name' => $interest
+                'name' => $interest,
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now(),
             ];
         }
         AccountType::query()->insert($accountsDbArray);
