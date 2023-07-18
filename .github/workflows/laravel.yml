@@ -33,7 +33,7 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
-          ./vendor/bin/sail artisan migrate
+          vendor/bin/sail artisan migrate
 
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
