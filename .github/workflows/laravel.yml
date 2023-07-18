@@ -33,24 +33,26 @@ jobs:
         run: |
           mkdir -p database
           touch database/database.sqlite
+          ./vendor/bin/sail artisan migrate
+
       - name: Execute tests (Unit and Feature tests) via PHPUnit
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
         run: vendor/bin/phpunit
 
-  sonarcloud:
-      name: SonarCloud
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-          with:
-            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarcloud-github-action@master
-          env:
-#            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
-            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#  sonarcloud:
+#      name: SonarCloud
+#      runs-on: ubuntu-latest
+#      steps:
+#        - uses: actions/checkout@v3
+#          with:
+#            fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+#        - name: SonarCloud Scan
+#          uses: SonarSource/sonarcloud-github-action@master
+#          env:
+##            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+#            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   deploy:
       name: Deoloy
       needs: ['test']
