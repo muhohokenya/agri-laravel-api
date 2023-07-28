@@ -4,7 +4,26 @@ on:
   push:
     branches: [ "main" ]
 jobs:
-#  test:
+  deploy:
+    name: Deoloy
+      needs: ['test']
+      runs-on: ubuntu-latest
+      steps:
+      - name: Ssh and Deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.HOST }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          username: ${{ secrets.USER_NAME }}
+          port: 22
+          script: |
+            cd /var/www/laravel/
+            git pull origin main
+            php artisan db:wipe
+            php artisan migrate
+            php artisan db:seed
+            composer update
+#  t
 #      name: laravel-test
 #      runs-on: ubuntu-latest
 #      steps:
@@ -53,22 +72,3 @@ jobs:
 ##          env:
 ###            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
 ##            SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  deploy:
-      name: Deoloy
-      needs: ['test']
-      runs-on: ubuntu-latest
-      steps:
-      - name: Ssh and Deploy
-        uses: appleboy/ssh-action@v0.1.10
-        with:
-          host: ${{ secrets.HOST }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          username: ${{ secrets.USER_NAME }}
-          port: 22
-          script: |
-            cd /var/www/laravel/
-            git pull origin main
-            php artisan db:wipe
-            php artisan migrate
-            php artisan db:seed
-            composer update
