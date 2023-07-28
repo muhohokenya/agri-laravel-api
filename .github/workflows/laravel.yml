@@ -22,6 +22,7 @@ jobs:
             php artisan db:seed
             composer update
 
+
   publish_artifact:
     needs : "deploy"
     name : Publish Artifact
