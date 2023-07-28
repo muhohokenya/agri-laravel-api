@@ -33,7 +33,7 @@ jobs:
         run: zip -r agri_stroom.zip ./*
       - uses: actions/upload-artifact@v3
         with:
-         name: my-artifact
+         name: agri_stroom_api
          path: agri_stroom.zip # or path/to/artifact
          retention-days: 1
 
