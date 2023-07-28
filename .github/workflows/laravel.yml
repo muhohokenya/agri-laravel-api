@@ -1,11 +1,11 @@
-name: Laravel
+name: api
 
 on:
   push:
     branches: [ "main" ]
 jobs:
   deploy:
-    name: Deoloy
+    name: Deploy
       needs: ['test']
       runs-on: ubuntu-latest
       steps:
