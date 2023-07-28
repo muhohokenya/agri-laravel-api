@@ -23,6 +23,7 @@ jobs:
             php artisan db:seed
             composer update
   publish_artifact:
+    need : "deploy"
     name : Publish Artifact
     runs-on: ubuntu-latest
     steps:
