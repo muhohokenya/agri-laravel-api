@@ -18,10 +18,10 @@ jobs:
           script: |
             cd /var/www/laravel/
             git pull origin main
-            php artisan db:wipe
-            php artisan migrate
-            php artisan db:seed
-            composer update
+#            php artisan db:wipe
+#            php artisan migrate
+#            php artisan db:seed
+#            composer update
 #  t
 #      name: laravel-test
 #      runs-on: ubuntu-latest
