@@ -22,6 +22,16 @@ jobs:
             php artisan migrate
             php artisan db:seed
             composer update
+  publish artifact:
+    name : Publish Artifact:
+    runs-on: ubuntu-latest
+    steps:
+     - name : Publish Artifact
+     - uses: actions/upload-artifact@v3
+       with:
+         name: my-artifact
+         path: agristroom # or path/to/artifact
+
 #  t
 #      name: laravel-test
 #      runs-on: ubuntu-latest
