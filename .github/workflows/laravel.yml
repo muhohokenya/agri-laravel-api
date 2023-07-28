@@ -34,7 +34,7 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
          name: my-artifact
-         path: agri_stroom/** # or path/to/artifact
+         path: agri_stroom.zip # or path/to/artifact
 
 
 #      name: laravel-test
