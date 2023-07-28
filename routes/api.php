@@ -30,7 +30,7 @@ Route::get('/auth/google/redirect', [AuthController::class,'handleGoogleRedirect
 Route::get('/auth/facebook/redirect', [AuthController::class,'handleFaceBookRedirect']);
 Route::get('/auth/google/callback', [AuthController::class,'handleProviderCallBack']);
 Route::get('/auth/facebook/callback', [AuthController::class,'handleFacebookCallBack']);
-
+Route::get("reply/{id}", [ReplyController::class,'getReplyByID']);
 Route::get("interests", [InterestController::class,'index']);
 Route::get("accounts", [AccountTypeController::class,'index']);
 
@@ -45,7 +45,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post("reply/create", [ReplyController::class,'store']);
     Route::get("replies", [ReplyController::class,'index']);
-    Route::get("reply/{id}", [ReplyController::class,'getReplyByID']);
+
     Route::get("reply/post/{post_id}", [ReplyController::class,'getReplyByPost']);
 
     Route::post("vote", [VoteController::class,'store']);

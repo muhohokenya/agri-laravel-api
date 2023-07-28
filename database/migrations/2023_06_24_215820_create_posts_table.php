@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('image', 255)->nullable();
             $table->string('title', 100);
-            $table->string('description');
+            $table->string('description', 255);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')
                     ->references('id')
