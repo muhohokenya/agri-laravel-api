@@ -26,6 +26,12 @@ jobs:
     name : Publish Artifact
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Zip Laravel project
+        run: zip -r agri_stroom.zip ./*
+
      - uses: actions/upload-artifact@v3
        with:
          name: my-artifact
