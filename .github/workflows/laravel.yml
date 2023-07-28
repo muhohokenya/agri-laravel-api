@@ -6,9 +6,8 @@ on:
 jobs:
   deploy:
     name: Deploy
-      needs: ['test']
-      runs-on: ubuntu-latest
-      steps:
+    runs-on: ubuntu-latest
+    steps:
       - name: Ssh and Deploy
         uses: appleboy/ssh-action@v0.1.10
         with:
