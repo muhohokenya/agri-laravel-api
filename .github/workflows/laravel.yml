@@ -22,7 +22,7 @@ jobs:
             php artisan migrate
             php artisan db:seed
             composer update
-  publish artifact:
+  publish_artifact:
     name : Publish Artifact
     runs-on: ubuntu-latest
     steps:
