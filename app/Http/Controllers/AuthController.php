@@ -22,6 +22,7 @@ class AuthController extends Controller
             'last_name' => $data['last_name'],
             'phone_number' => $data['phone_number'],
             'email' => $data['email'],
+            'username' => $data['username'],
             'password' => bcrypt($data['password']),
             'account_id' => $data['account_id'],
         ]);
@@ -32,6 +33,7 @@ class AuthController extends Controller
         $request->validate([
             'first_name' => 'required|string',
             'last_name' => 'required|string',
+            'username' => 'required|string|unique:users',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|min:8',
             'account_id' => 'required'
@@ -42,6 +44,7 @@ class AuthController extends Controller
             'last_name' => $request->get('last_name'),
             'phone_number' => $request->get('phone_number'),
             'email' => $request->get('email'),
+            'username' => $request->get('username'),
             'password' => $request->get('password'),
             'account_id' => $request->get('account_id'),
         ];
