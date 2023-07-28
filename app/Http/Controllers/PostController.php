@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
+use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
 {
@@ -76,6 +77,7 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        Log::info(json_encode($request->all()));
         Post::query()->create([
             'user_id' => $request->user()->id,
             'title' => $request->get('title'),
