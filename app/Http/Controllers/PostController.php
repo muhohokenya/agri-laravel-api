@@ -78,7 +78,9 @@ class PostController extends Controller
     {
         Post::query()->create([
             'user_id' => $request->user()->id,
-            'name' => $request->get('name')
+            'name' => $request->get('name'),
+            'title' => $request->get('title'),
+            'description' => $request->get('description')
         ]);
 
         return response()->json("Created");

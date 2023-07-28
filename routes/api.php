@@ -25,6 +25,7 @@ Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
 Route::get("posts", [PostController::class,'index']);
 Route::get("post/{id}", [PostController::class,'getPostByID']);
+
 Route::get('/auth/google/redirect', [AuthController::class,'handleGoogleRedirect']);
 Route::get('/auth/facebook/redirect', [AuthController::class,'handleFaceBookRedirect']);
 Route::get('/auth/google/callback', [AuthController::class,'handleProviderCallBack']);
