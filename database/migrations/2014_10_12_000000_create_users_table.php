@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('country')->nullable();
             $table->string('county')->nullable();
             $table->string('email');
-            $table->string('username')->unique();
+            $table->string('username')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->unsignedBigInteger('account_id')->nullable();
