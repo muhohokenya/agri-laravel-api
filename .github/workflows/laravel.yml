@@ -38,6 +38,7 @@ jobs:
          path: agri_stroom.zip # or path/to/artifact
          retention-days: 1
   slackNotification:
+      needs : "publish_artifact"
       name: Slack Notification
       runs-on: ubuntu-latest
       steps:
