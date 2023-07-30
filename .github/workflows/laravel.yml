@@ -48,6 +48,7 @@ jobs:
         env:
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
           SLACK_MESSAGE : "AgriStroom Backend Published"
+          SLACK_COLOR : ${{ job.status }}
 
 
 #      name: laravel-test
