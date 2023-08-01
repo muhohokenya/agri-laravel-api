@@ -116,6 +116,18 @@ class AuthController extends Controller
         );
     }
 
+    public function userNameExists(Request $request)
+    {
+        $username = $request->get('username');
+        return User::query()->where('username', $username)->exists();
+    }
+
+    public function emailExists(Request $request)
+    {
+        $username = $request->get('email');
+        return User::query()->where('email', $username)->exists();
+    }
+
 
     public function login(Request $request)
     {
