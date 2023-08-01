@@ -120,18 +120,18 @@ class AuthController extends Controller
     {
         $username = $request->get('username');
         if (!User::query()->where('username', $username)->exists()) {
-            return true;
+            return response("available");
         }
-        return false;
+        return response("taken");
     }
 
     public function emailExists(Request $request)
     {
         $email = $request->get('email');
         if (!User::query()->where('email', $email)->exists()) {
-            return true;
+            return response("available");
         }
-        return false;
+        return response("taken");
     }
 
 
