@@ -16,9 +16,9 @@ class PostController extends Controller
     {
         return response()->json(
             Post::query()->with(['user','replies','votes'=> function($query){
-                $upVotes = $query->where('vote', 1);
-                $downVotes = $query->where('vote', -1);
-                return $upVotes;
+                $upVotes = $query->where('vote', 1)->count();
+                $downVotes = $query->where('vote', -1)->count();
+                return $upVotes - $downVotes;
             }])->orderBy('created_at', 'desc')->get());
     }
 
