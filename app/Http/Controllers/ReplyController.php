@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreReplyRequest;
 use App\Http\Requests\UpdateReplyRequest;
+use App\Http\Resources\ReplyResource;
 use App\Models\Reply;
 use Illuminate\Support\Facades\DB;
 
@@ -17,17 +18,19 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        return response()->json(Reply::query()->with([
-            'user','post',
-            'upVotes'=> function ($query)
-            {
-                return $query->where('vote', 1);
-            },
-            'downVotes'=> function ($query)
-            {
-                return $query->where('vote', -1);
-            }
-        ])->get());
+        return ReplyResource::collection(
+            Reply::query()->with([
+                'user','post',
+                'upVotes'=> function ($query)
+                {
+                    return $query->where('vote', 1);
+                },
+                'downVotes'=> function ($query)
+                {
+                    return $query->where('vote', -1);
+                }
+            ])->get()
+        );
     }
 
     /**
