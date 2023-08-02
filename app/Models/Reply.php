@@ -33,7 +33,7 @@ class Reply extends Model
     public function downVotes(): HasMany
     {
         return $this->hasMany(ReplyVotes::class)
-            ->where('vote', '=', 0);
+            ->where('vote', '=', -1);
     }
     /**
      * Get the comments for the blog post.
