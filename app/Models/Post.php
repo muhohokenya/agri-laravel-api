@@ -31,5 +31,11 @@ class Post extends Model
         return $this->hasMany(Reply::class);
     }
 
+    /*Count the votes for a post*/
+    public function votes():hasMany
+    {
+        return $this->hasMany(PostVotes::class);
+    }
+
 
 }
