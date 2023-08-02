@@ -32,7 +32,7 @@ class Reply extends Model
      */
     public function downVotes(): HasMany
     {
-        return $this->hasMany(ReplyVote::class)
+        return $this->hasMany(ReplyVotes::class)
             ->where('vote', '=', 0);
     }
     /**
@@ -40,7 +40,7 @@ class Reply extends Model
      */
     public function upVotes(): HasMany
     {
-        return $this->hasMany(ReplyVote::class)
+        return $this->hasMany(ReplyVotes::class)
             ->where('vote', '=', 1);
     }
 }
