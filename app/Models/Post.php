@@ -32,7 +32,12 @@ class Post extends Model
     }
 
     /*Count the votes for a post*/
-    public function votes():hasMany
+    public function upVotes():hasMany
+    {
+        return $this->hasMany(PostVotes::class);
+    }
+
+    public function downVotes():hasMany
     {
         return $this->hasMany(PostVotes::class);
     }
