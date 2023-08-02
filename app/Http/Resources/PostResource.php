@@ -19,13 +19,13 @@ class PostResource extends JsonResource
     {
 //        return parent::toArray($request);
         return [
-            "id"=>$request,
-//            "image"=>$request->image,
-//            "title"=>$request->description,
-//            "description"=>$this->description,
-//            "user"=>$this->user,
-//            "replies"=>$this->replies,
-//            "votes"=>$this->up_votes,
+            "id"=>$this->id,
+            "image"=>$this->image,
+            "title"=>$this->description,
+            "description"=>$this->description,
+            "user"=>$this->user,
+            "replies"=>$this->replies,
+            "votes"=>$this->up_votes,
         ];
     }
 }
