@@ -35,6 +35,7 @@ Route::get('/auth/facebook/callback', [AuthController::class,'handleFacebookCall
 Route::get("reply/{id}", [ReplyController::class,'getReplyByID']);
 Route::get("interests", [InterestController::class,'index']);
 Route::get("accounts", [AccountTypeController::class,'index']);
+Route::get("replies", [ReplyController::class,'index']);
 
 Route::get("reply/post/{post_id}", [ReplyController::class,'getReplyByPost']);
 
@@ -48,8 +49,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 
     Route::post("reply/create", [ReplyController::class,'store']);
-    Route::get("replies", [ReplyController::class,'index']);
-
 
 
     Route::post("vote", [VoteController::class,'store']);
