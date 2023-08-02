@@ -32,15 +32,13 @@ class Reply extends Model
      */
     public function downVotes(): HasMany
     {
-        return $this->hasMany(ReplyVotes::class)
-            ->where('vote', '=', -1);
+        return $this->hasMany(ReplyVotes::class);
     }
     /**
      * Get the comments for the blog post.
      */
     public function upVotes(): HasMany
     {
-        return $this->hasMany(ReplyVotes::class)
-            ->where('vote', '=', 1);
+        return $this->hasMany(ReplyVotes::class);
     }
 }

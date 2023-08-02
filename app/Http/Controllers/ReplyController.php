@@ -18,7 +18,15 @@ class ReplyController extends Controller
     public function index()
     {
         return response()->json(Reply::query()->with([
-            'user','post','upVotes','downVotes'
+            'user','post',
+            'upVotes'=> function ($query)
+            {
+                return $query->where('vote', 1);
+            },
+            'downVotes'=> function ($query)
+            {
+                return $query->where('vote', -1);
+            }
         ])->get());
     }
 
