@@ -15,7 +15,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        return new PostResource(
+        return PostResource::collection(
             Post::query()->with(['user','replies',
                 'upVotes'=> function ($query)
                 {
