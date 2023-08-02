@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
+use App\Http\Resources\PostResource;
 use App\Models\Post;
 use Illuminate\Support\Facades\Log;
 
@@ -14,17 +15,18 @@ class PostController extends Controller
      */
     public function index()
     {
-        return response()->json(
+        return new PostResource(
             Post::query()->with(['user','replies',
                 'upVotes'=> function ($query)
                 {
-                     $query->where('vote', 1);
+                    $query->where('vote', 1);
                 },
                 'downVotes'=> function ($query)
                 {
-                     $query->where('vote', -1);
+                    $query->where('vote', -1);
                 }
-            ])->orderBy('created_at', 'desc')->get());
+            ])->orderBy('created_at', 'desc')->get()
+        );
     }
 
     public function getPostByID($id)
