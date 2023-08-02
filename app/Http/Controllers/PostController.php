@@ -18,7 +18,7 @@ class PostController extends Controller
             Post::query()->with(['user','replies',
 
                 'votes'=> function($query){
-                return $query->where('vote', 1);
+                return $query->where('vote', 1)->count();
             }])->orderBy('created_at', 'desc')->get());
     }
 
