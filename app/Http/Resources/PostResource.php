@@ -17,6 +17,9 @@ class PostResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $upVotes = self::collection($this->upVotes)->count();
+        $downVotes = self::collection($this->downVotes)->count();
+        $totalVotes = $upVotes - $downVotes;
         return [
             "id"=>$this->id,
             "image"=>$this->image,
@@ -24,7 +27,7 @@ class PostResource extends JsonResource
             "description"=>$this->description,
             "user"=>$this->user,
             "replies"=>$this->replies,
-            "votes"=>self::collection($this->upVotes)->count(),
+            "votes"=>$totalVotes,
         ];
     }
 }
