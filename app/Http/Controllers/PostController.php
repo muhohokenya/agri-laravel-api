@@ -15,7 +15,7 @@ class PostController extends Controller
     public function index()
     {
         return response()->json(
-            Post::query()->with(['user','replies',
+            Post::query()->withCount(['user','replies',
                 'upVotes'=> function ($query)
                 {
                     return $query->where('vote', 1);
