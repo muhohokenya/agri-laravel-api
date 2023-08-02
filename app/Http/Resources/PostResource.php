@@ -25,7 +25,7 @@ class PostResource extends JsonResource
             "description"=>$this->description,
             "user"=>$this->user,
             "replies"=>$this->replies,
-            "votes"=>$this->up_votes,
+            "votes"=>$this->upVotes,
         ];
     }
 }
