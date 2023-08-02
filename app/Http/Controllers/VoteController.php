@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreVoteRequest;
 use App\Http\Requests\UpdateVoteRequest;
-use App\Models\Vote;
+use App\Models\PostVotes;
+use App\Models\ReplyVotes;
 use Illuminate\Http\Response;
 
 class VoteController extends Controller
@@ -28,10 +29,10 @@ class VoteController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreVoteRequest $request)
+    public function voteReply(StoreVoteRequest $request)
     {
 
-       Vote::query()->updateOrCreate([
+        ReplyVotes::query()->updateOrCreate([
            'user_id'=>$request->user()->id,
            'reply_id'=>$request->get('reply_id'),
        ], ['vote'=> $request->get('vote')]);
@@ -42,10 +43,12 @@ class VoteController extends Controller
        ])->setStatusCode(Response::HTTP_CREATED);
     }
 
+
+
     /**
      * Display the specified resource.
      */
-    public function show(Vote $vote)
+    public function show(ReplyVotes $vote)
     {
         //
     }
@@ -53,7 +56,7 @@ class VoteController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Vote $vote)
+    public function edit(ReplyVotes $vote)
     {
         //
     }
@@ -61,7 +64,7 @@ class VoteController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateVoteRequest $request, Vote $vote)
+    public function update(UpdateVoteRequest $request, ReplyVotes $vote)
     {
         //
     }
@@ -69,7 +72,7 @@ class VoteController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Vote $vote)
+    public function destroy(ReplyVotes $vote)
     {
         //
     }

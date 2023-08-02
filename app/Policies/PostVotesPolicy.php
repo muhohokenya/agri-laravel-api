@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
+use App\Models\PostVotes;
 use App\Models\User;
-use App\Models\ReplyVote;
 use Illuminate\Auth\Access\Response;
 
-class VotePolicy
+class PostVotesPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class VotePolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, ReplyVote $vote): bool
+    public function view(User $user, PostVotes $postVotes): bool
     {
         //
     }
@@ -35,7 +35,7 @@ class VotePolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, ReplyVote $vote): bool
+    public function update(User $user, PostVotes $postVotes): bool
     {
         //
     }
@@ -43,7 +43,7 @@ class VotePolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, ReplyVote $vote): bool
+    public function delete(User $user, PostVotes $postVotes): bool
     {
         //
     }
@@ -51,7 +51,7 @@ class VotePolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, ReplyVote $vote): bool
+    public function restore(User $user, PostVotes $postVotes): bool
     {
         //
     }
@@ -59,7 +59,7 @@ class VotePolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, ReplyVote $vote): bool
+    public function forceDelete(User $user, PostVotes $postVotes): bool
     {
         //
     }

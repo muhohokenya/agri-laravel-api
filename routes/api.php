@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountTypeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\InterestController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PostVotesController;
 use App\Http\Controllers\ReplyController;
 use App\Http\Controllers\VoteController;
 use Illuminate\Http\Request;
@@ -42,9 +43,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("user", [AuthController::class,'getUser']);
     Route::post("user/update", [AuthController::class,'updateUser']);
     Route::post("user/update/profile-picture", [AuthController::class,'updateProfilePicture']);
-
     Route::post("post/create", [PostController::class,'store']);
     Route::post("reply/create", [ReplyController::class,'store']);
-    Route::post("vote", [VoteController::class,'store']);
-
+    Route::post("vote-reply", [VoteController::class,'voteReply']);
+    Route::post("vote-post", [PostVotesController::class,'votePost']);
 });
