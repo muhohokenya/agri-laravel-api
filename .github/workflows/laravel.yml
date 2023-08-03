@@ -17,9 +17,9 @@ jobs:
           script: |
             cd /var/www/laravel/
             git pull origin main
-            php artisan db:wipe
-            php artisan migrate
-            php artisan db:seed
+#            php artisan db:wipe
+#            php artisan migrate
+#            php artisan db:seed
 #            composer update
 
 
