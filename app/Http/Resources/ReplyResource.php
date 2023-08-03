@@ -26,7 +26,7 @@ class ReplyResource extends JsonResource
             'updated_at'=>$this->updated_at,
             'user'=>$this->user,
             'post'=>$this->post,
-            'votes'=>$totalVotes,
+            "votes"=>($totalVotes < 1) ? 0 : $totalVotes,
         ];
     }
 }
