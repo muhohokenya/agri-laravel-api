@@ -32,9 +32,25 @@ class PostController extends Controller
 
     public function getPostByID($id)
     {
-        return response()->json(Post::query()->where('id', $id)->with([
-            'user',
-        ])->get());
+        return PostResource::collection(
+            Post::query()
+                ->where('id', $id)
+                ->with(
+                ['user','replies',
+                    'upVotes'=> function ($query)
+                    {
+                        return $query->where('vote', 1);
+                    },
+                    'downVotes'=> function ($query)
+                    {
+                        return $query->where('vote', -1);
+                    }
+                ])->orderBy('created_at', 'desc')->get()
+        );
+
+//        return response()->json(Post::query()->where('id', $id)->with([
+//            'user',
+//        ])->get());
     }
 
 
