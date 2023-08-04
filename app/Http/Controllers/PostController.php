@@ -39,11 +39,11 @@ class PostController extends Controller
                 ['user','replies',
                     'upVotes'=> function ($query)
                     {
-                        return $query->where('vote', 1);
+                         $query->where('vote', 1);
                     },
                     'downVotes'=> function ($query)
                     {
-                        return $query->where('vote', -1);
+                         $query->where('vote', -1);
                     }
                 ])->orderBy('created_at', 'desc')->get()
         );
