@@ -47,10 +47,6 @@ class PostController extends Controller
                     }
                 ])->orderBy('created_at', 'desc')->get()
         );
-
-//        return response()->json(Post::query()->where('id', $id)->with([
-//            'user',
-//        ])->get());
     }
 
 
