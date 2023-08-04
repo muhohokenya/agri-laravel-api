@@ -27,7 +27,8 @@ class PostResource extends JsonResource
             "description"=>$this->description,
             "user"=>$this->user,
             "replies"=>$this->replies,
-            "votes"=>($totalVotes < 0) ? 0 : $totalVotes,
+//            "votes"=>($totalVotes < 0) ? 0 : $totalVotes,
+            "votes"=>$totalVotes,
             'created_at'=>$this->created_at,
             'updated_at'=>$this->updated_at,
         ];
