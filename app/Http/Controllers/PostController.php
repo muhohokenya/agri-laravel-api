@@ -102,14 +102,13 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        Log::info(json_encode($request->all()));
-        Post::query()->create([
+        $data = Post::query()->create([
             'user_id' => $request->user()->id,
             'title' => $request->get('title'),
             'description' => $request->get('description')
         ]);
-
-        return response()->json("Created");
+        $postId = $data->id;
+        return $this->getPostByID($postId);
     }
 
     /**
