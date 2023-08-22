@@ -24,6 +24,8 @@ use Laravel\Socialite\Facades\Socialite;
 
 Route::post("register", [AuthController::class,'register']);
 Route::post("login", [AuthController::class,'login']);
+Route::post("request-password-reset", [AuthController::class,'requestPasswordReset'])->name('password.reset');
+Route::post("reset-password", [AuthController::class,'resetPassword'])->name('password.reset');
 Route::post("username-exists", [AuthController::class,'userNameExists']);
 Route::post("email-exists", [AuthController::class,'emailExists']);
 Route::get("posts", [PostController::class,'index']);

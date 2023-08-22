@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PasswordReset;
 use App\Models\Interest;
 use App\Models\User;
 use App\Models\UserInterest;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Response;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Password;
 
 class AuthController extends Controller
 {
@@ -116,7 +123,7 @@ class AuthController extends Controller
         );
     }
 
-    public function userNameExists(Request $request)
+    public function userNameExists(Request $request): JsonResponse
     {
         $username = $request->get('username');
         if (!User::query()->where('username', $username)->exists()) {
@@ -127,6 +134,40 @@ class AuthController extends Controller
         return response()->json([
             "status"=>"taken"
         ]);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required|string',
+            'password' => 'required|string|confirmed',
+        ]);
+
+        $token = $request->get('token');
+        $password = $request->get('password');
+
+        $email = DB::table('password_reset_tokens')
+            ->where('token', $token)
+            ->pluck('email')->first();
+
+        User::query()
+            ->where('email', $email)
+            ->update([
+                'password'=>bcrypt($password)
+            ]);
+
+        return response()->json([
+            'status'=>'success',
+            'message'=>'Password reset is successful',
+        ]);
+    }
+
+    public function requestPasswordReset(Request $request)
+    {
+        $request->validate(['email' => 'required|email|exists:users']);
+        Password::sendResetLink(
+            $request->only('email')
+        );
     }
 
     public function emailExists(Request $request)
