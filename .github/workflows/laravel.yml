@@ -21,8 +21,7 @@ jobs:
 #            php artisan db:wipe
 #            php artisan migrate
 #            php artisan db:seed
-#            composer update
-
+            composer update
 
 #  publish_artifact:
 #    needs : "deploy"

@@ -41,8 +41,10 @@ Route::get("accounts", [AccountTypeController::class,'index']);
 Route::get("replies", [ReplyController::class,'index']);
 Route::get("reply/post/{post_id}", [ReplyController::class,'getReplyByPost']);
 
+Route::get("users", [AuthController::class,'getUsers']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("user", [AuthController::class,'getUser']);
+
     Route::post("user/update", [AuthController::class,'updateUser']);
     Route::post("user/update/profile-picture", [AuthController::class,'updateProfilePicture']);
     Route::post("post/create", [PostController::class,'store']);
