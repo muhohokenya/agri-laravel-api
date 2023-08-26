@@ -125,7 +125,7 @@ class AuthController extends Controller
     public function getUsers(): JsonResponse
     {
         return response()->json(
-            User::query()->with(['posts','replies'])
+            User::query()->with(['posts','replies','interests'])
                 ->get()
         );
     }
