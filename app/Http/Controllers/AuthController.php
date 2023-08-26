@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Mail\PasswordReset;
 use App\Models\Interest;
 use App\Models\User;
@@ -9,6 +10,7 @@ use App\Models\UserInterest;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Mail\Mailable;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
@@ -122,9 +124,9 @@ class AuthController extends Controller
                 ->get()
         );
     }
-    public function getUsers(): JsonResponse
+    public function getUsers(): AnonymousResourceCollection
     {
-        return response()->json(
+        return UserResource::collection(
             User::query()->with(['posts','replies','interests','account'])
                 ->get()
         );
