@@ -18,10 +18,11 @@ jobs:
             cd /var/www/laravel/
             git pull origin main
             php artisan migrate
+            composer update
 #            php artisan db:wipe
 #            php artisan migrate
 #            php artisan db:seed
-            composer update
+
 
 #  publish_artifact:
 #    needs : "deploy"
