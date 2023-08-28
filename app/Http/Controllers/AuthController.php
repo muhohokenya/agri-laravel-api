@@ -132,6 +132,24 @@ class AuthController extends Controller
         );
     }
 
+    public function getUserById($id): AnonymousResourceCollection
+    {
+        return UserResource::collection(
+            User::query()
+                ->where('id', $id)
+                ->with(['posts','replies','interests','account'])
+                ->get()
+        );
+    }
+
+    public function deleteUser(Request $request): void
+    {
+        $id = $request->get('id');
+        User::query()
+            ->where('id', $id)
+            ->delete();
+    }
+
     public function userNameExists(Request $request): JsonResponse
     {
         $username = $request->get('username');
@@ -145,7 +163,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function resetPassword(Request $request)
+    public function resetPassword(Request $request): JsonResponse
     {
         $request->validate([
             'token' => 'required|string',
@@ -171,7 +189,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function requestPasswordReset(Request $request)
+    public function requestPasswordReset(Request $request): void
     {
         $request->validate(['email' => 'required|email|exists:users']);
         Password::sendResetLink(

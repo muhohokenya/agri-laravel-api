@@ -42,6 +42,8 @@ Route::get("replies", [ReplyController::class,'index']);
 Route::get("reply/post/{post_id}", [ReplyController::class,'getReplyByPost']);
 
 Route::get("users", [AuthController::class,'getUsers']);
+Route::get("user/{id}", [AuthController::class,'getUserById']);
+Route::delete("delete-user", [AuthController::class,'deleteUser']);
 Route::middleware(['auth:sanctum'])->group(function () {
     Route::get("user", [AuthController::class,'getUser']);
 
