@@ -173,21 +173,31 @@ class AuthController extends Controller
         $token = $request->get('token');
         $password = $request->get('password');
 
-        $email = DB::table('password_reset_tokens')
-            ->where('token', $token)
-            ->pluck('email')->first();
 
-        User::query()
-            ->where('email', $email)
-            ->first()
-            ->update([
-                'password'=>bcrypt($password)
+        $passwordToken = DB::table('password_reset_tokens')
+            ->where('token', $token);
+
+        if ($passwordToken->doesntExist()) {
+            return response()->json([
+                'status'=>'error',
+                'message'=>'Invalid token',
             ]);
+        } else {
+            $email = $passwordToken
+                ->pluck('email')->first();
 
-        return response()->json([
-            'status'=>'success',
-            'message'=>'Password reset is successful',
-        ]);
+            User::query()
+                ->where('email', $email)
+                ->first()
+                ->update([
+                    'password'=>bcrypt($password)
+                ]);
+
+            return response()->json([
+                'status'=>'success',
+                'message'=>'Password reset is successful',
+            ]);
+        }
     }
 
     public function requestPasswordReset(Request $request): void
