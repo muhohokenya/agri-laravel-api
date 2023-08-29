@@ -30,6 +30,7 @@ Route::post("username-exists", [AuthController::class,'userNameExists']);
 Route::post("email-exists", [AuthController::class,'emailExists']);
 Route::get("posts", [PostController::class,'index']);
 Route::get("post/{id}", [PostController::class,'getPostByID']);
+Route::delete("delete-post/{id}", [PostController::class,'destroy']);
 
 Route::get('/auth/google/redirect', [AuthController::class,'handleGoogleRedirect']);
 Route::get('/auth/facebook/redirect', [AuthController::class,'handleFaceBookRedirect']);
