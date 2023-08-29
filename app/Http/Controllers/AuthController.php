@@ -179,7 +179,6 @@ class AuthController extends Controller
 
         User::query()
             ->where('email', $email)
-            ->first()
             ->update([
                 'password'=>bcrypt($password)
             ]);
