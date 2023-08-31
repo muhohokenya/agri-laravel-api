@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
-use App\Mail\PasswordReset;
 use App\Models\Interest;
 use App\Models\User;
 use App\Models\UserInterest;
@@ -173,25 +172,45 @@ class AuthController extends Controller
         $token = $request->get('token');
         $password = $request->get('password');
 
+        Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function (User $user, string $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
 
-        $passwordToken = DB::table('password_reset_tokens')
-            ->where('token', $token);
+                $user->save();
 
-        if ($passwordToken->doesntExist()) {
-            return response()->json([
-                'status'=>'error',
-                'message'=>'Invalid token',
-            ]);
-        } else {
-            $email = $passwordToken
-                ->pluck('email')->first();
-
-            User::query()
-                ->where('email', $email)
-                ->first()
-                ->update([
-                    'password'=>bcrypt($password)
-                ]);
+            }
+        );
+//
+//
+//
+//
+//
+//
+//        $passwordToken = DB::table('password_reset_tokens')
+//            ->where('token', $token);
+//
+//        $existingToken = $passwordToken->pluck('token');
+//
+//        $tokenMatch = Hash::check($token, $existingToken);
+//
+//        if ($tokenMatch) {
+//            return response()->json([
+//                'status'=>'error',
+//                'message'=>'Invalid token',
+//            ]);
+//        } else {
+//            $email = $passwordToken
+//                ->pluck('email')->first();
+//
+//            User::query()
+//                ->where('email', $email)
+//                ->first()
+//                ->update([
+//                    'password'=>bcrypt($password)
+//                ]);
 
             return response()->json([
                 'status'=>'success',
