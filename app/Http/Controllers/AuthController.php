@@ -162,7 +162,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function resetPassword(Request $request): JsonResponse
+    public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required|string',
