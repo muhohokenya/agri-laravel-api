@@ -183,12 +183,12 @@ class AuthController extends Controller
 
             }
         );
-//
-//
-//
-//
-//
-//
+
+
+
+
+
+
 //        $passwordToken = DB::table('password_reset_tokens')
 //            ->where('token', $token);
 //
@@ -211,12 +211,12 @@ class AuthController extends Controller
 //                ->update([
 //                    'password'=>bcrypt($password)
 //                ]);
-
-            return response()->json([
-                'status'=>'success',
-                'message'=>'Password reset is successful',
-            ]);
-        }
+//
+//            return response()->json([
+//                'status'=>'success',
+//                'message'=>'Password reset is successful',
+//            ]);
+//        }
     }
 
     public function requestPasswordReset(Request $request): void
