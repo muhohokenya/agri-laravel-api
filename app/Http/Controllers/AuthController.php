@@ -163,61 +163,40 @@ class AuthController extends Controller
         ]);
     }
 
+
+
     public function resetPassword(Request $request)
     {
         $request->validate([
             'token' => 'required|string',
+            'email' => 'required|string',
             'password' => 'required|string|confirmed',
         ]);
 
-        $token = $request->get('token');
-        $password = $request->get('password');
+        $user = User::query()
+            ->where('email', $request->get('email'))
+            ->first('email');
 
-        Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function (User $user, string $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->setRememberToken(Str::random(60));
+        $passwordReset = DB::table('password_reset_tokens')
+            ->where('email', $user->email)->first('token');
 
-                $user->save();
+        $token = $passwordReset->token;
 
-            }
-        );
+       $match =  Hash::check($request->get('token'), $token);
 
+       if ($match) {
+           User::query()
+               ->where('email', $request->get('email'))
+               ->first()
+               ->update([
+                   'password'=>Hash::make($request->get('password'))
+               ]);
 
-
-
-
-
-//        $passwordToken = DB::table('password_reset_tokens')
-//            ->where('token', $token);
-//
-//        $existingToken = $passwordToken->pluck('token');
-//
-//        $tokenMatch = Hash::check($token, $existingToken);
-//
-//        if ($tokenMatch) {
-//            return response()->json([
-//                'status'=>'error',
-//                'message'=>'Invalid token',
-//            ]);
-//        } else {
-//            $email = $passwordToken
-//                ->pluck('email')->first();
-//
-//            User::query()
-//                ->where('email', $email)
-//                ->first()
-//                ->update([
-//                    'password'=>bcrypt($password)
-//                ]);
-//
-//            return response()->json([
-//                'status'=>'success',
-//                'message'=>'Password reset is successful',
-//            ]);
-//        }
+           return response()->json([
+               'status'=>'success',
+               'message'=>'Password reset is successful',
+           ]);
+       }
     }
 
     public function requestPasswordReset(Request $request): void
