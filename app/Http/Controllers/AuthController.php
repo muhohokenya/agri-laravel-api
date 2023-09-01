@@ -169,7 +169,7 @@ class AuthController extends Controller
     {
         $request->validate([
             'token' => 'required|string',
-            'email' => 'required|string',
+            'email' => 'required|string|exists:users',
             'password' => 'required|string|confirmed',
         ]);
 
