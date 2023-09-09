@@ -6,6 +6,7 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 class PostController extends Controller
@@ -102,10 +103,22 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
+        $fileName = "";
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $destinationPath = 'uploads/posts';
+            $fileName = $file->getClientOriginalName();
+            $file->move($destinationPath, $fileName);
+        }
+
+
+
+
         $data = Post::query()->create([
             'user_id' => $request->user()->id,
             'title' => $request->get('title'),
-            'description' => $request->get('description')
+            'description' => $request->get('description'),
+            'image' => $fileName
         ]);
         $postId = $data->id;
         return $this->getPostByID($postId);

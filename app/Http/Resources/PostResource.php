@@ -22,7 +22,7 @@ class PostResource extends JsonResource
         $totalVotes = $upVotes - $downVotes;
         return [
             "id"=>$this->id,
-            "image"=>$this->image,
+            "image"=>public_path('uploads/posts/'.$this->image),
             "title"=>$this->title,
             "description"=>$this->description,
             "user"=>$this->user,
